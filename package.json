@@ -1,12 +1,38 @@
 {
-  "name": "realtime-messenger",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:AHTHneeuhl/realtime-messenger.git",
-  "author": "Shubham Patrick <ahthneeuhl@gmail.com>",
-  "license": "MIT",
-  "private": "true",
-  "workspaces": [
-    "packages/*"
-  ]
+  "name": "saas-platform",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.2.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4",
+    "turbo": "^2.8.11",
+    "typescript": "5.9.2",
+    "typescript-eslint": "^8.20.0"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
 }
