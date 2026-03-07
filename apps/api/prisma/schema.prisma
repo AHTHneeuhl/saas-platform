@@ -34,6 +34,7 @@ model Organization {
   members  UserOrganization[]
   projects Project[]
   settings OrganizationSettings?
+  subscription Subscription?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -146,6 +147,22 @@ model Notification {
   read    Boolean @default(false)
 
   createdAt DateTime @default(now())
+}
+
+model Subscription {
+  id String @id @default(uuid())
+
+  organizationId String @unique
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  plan   String
+  status String
+
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Role {
