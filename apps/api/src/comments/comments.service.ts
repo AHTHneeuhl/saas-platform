@@ -18,4 +18,19 @@ export class CommentsService {
       },
     });
   }
+
+  async getTaskComments(taskId: string) {
+    return this.prisma.comment.findMany({
+      where: {
+        taskId,
+        deletedAt: null,
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+      include: {
+        user: true,
+      },
+    });
+  }
 }
