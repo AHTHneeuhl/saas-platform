@@ -27,6 +27,7 @@ export class TasksService {
       'TASK_CREATED',
       'task',
       task.id,
+      task.projectId,
     );
 
     return task;
@@ -54,6 +55,7 @@ export class TasksService {
       'TASK_UPDATED',
       'task',
       task.id,
+      task.projectId,
     );
 
     return task;
@@ -69,6 +71,7 @@ export class TasksService {
       'TASK_DELETED',
       'task',
       task.id,
+      task.projectId,
     );
 
     return task;

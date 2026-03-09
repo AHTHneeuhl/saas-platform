@@ -22,6 +22,7 @@ export class ActivityLogsService {
     action: string,
     entity: string,
     entityId: string,
+    projectId?: string,
   ) {
     return this.prisma.activityLog.create({
       data: {
@@ -29,6 +30,7 @@ export class ActivityLogsService {
         action,
         entity,
         entityId,
+        projectId,
       },
     });
   }
