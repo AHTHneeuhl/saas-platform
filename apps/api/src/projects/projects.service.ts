@@ -38,4 +38,13 @@ export class ProjectsService {
       data: dto,
     });
   }
+
+  async delete(orgId: string, projectId: string) {
+    return this.prisma.project.deleteMany({
+      where: {
+        id: projectId,
+        orgId,
+      },
+    });
+  }
 }

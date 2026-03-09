@@ -6,6 +6,7 @@ import {
   UseGuards,
   Get,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -46,5 +47,11 @@ export class ProjectsController {
     @Body() dto: UpdateProjectDto,
   ) {
     return this.projectsService.update(orgId, projectId, dto);
+  }
+
+  @UseGuards(JwtAuthGuard, OrgAccessGuard)
+  @Delete(':projectId')
+  remove(@Param('orgId') orgId: string, @Param('projectId') projectId: string) {
+    return this.projectsService.delete(orgId, projectId);
   }
 }
