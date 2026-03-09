@@ -21,7 +21,13 @@ export class ActivityLogsService {
     });
   }
 
-  async getProjectActivity(projectId: string) {
+  async getProjectActivity(
+    projectId: string,
+    page: number = 1,
+    limit: number = 20,
+  ) {
+    const skip = (page - 1) * limit;
+
     return this.prisma.activityLog.findMany({
       where: {
         projectId,
@@ -29,6 +35,8 @@ export class ActivityLogsService {
       orderBy: {
         createdAt: 'desc',
       },
+      skip,
+      take: limit,
       include: {
         user: true,
       },

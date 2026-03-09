@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { ActivityLogsService } from './activity-logs.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { OrgAccessGuard } from '../common/guards/org-access.guard';
@@ -9,7 +9,15 @@ export class ActivityLogsController {
 
   @UseGuards(JwtAuthGuard, OrgAccessGuard)
   @Get()
-  getProjectActivity(@Param('projectId') projectId: string) {
-    return this.activityLogsService.getProjectActivity(projectId);
+  getProjectActivity(
+    @Param('projectId') projectId: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.activityLogsService.getProjectActivity(
+      projectId,
+      Number(page) || 1,
+      Number(limit) || 20,
+    );
   }
 }
