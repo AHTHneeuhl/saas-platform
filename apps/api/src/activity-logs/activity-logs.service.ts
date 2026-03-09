@@ -12,6 +12,7 @@ export class ActivityLogsService {
       TASK_DELETED: 'deleted a task',
       PROJECT_CREATED: 'created a project',
       PROJECT_UPDATED: 'updated a project',
+      COMMENT_CREATED: 'commented on a task',
     };
 
     return messages[action] || `${action} ${entity}`;
