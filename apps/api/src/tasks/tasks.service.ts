@@ -98,4 +98,23 @@ export class TasksService {
 
     return task;
   }
+
+  async unassignTask(taskId: string, userId: string) {
+    const task = await this.prisma.task.update({
+      where: { id: taskId },
+      data: {
+        assigneeId: null,
+      },
+    });
+
+    await this.activityLogsService.logActivity(
+      userId,
+      'TASK_UNASSIGNED',
+      'task',
+      task.id,
+      task.projectId,
+    );
+
+    return task;
+  }
 }

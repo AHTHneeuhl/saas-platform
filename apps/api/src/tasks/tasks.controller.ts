@@ -22,7 +22,8 @@ export class TasksController {
   @UseGuards(JwtAuthGuard, OrgAccessGuard)
   @Post()
   create(@Param('projectId') projectId: string, @Body() dto: CreateTaskDto) {
-    return this.tasksService.create(projectId, dto);
+    const userId = 'USER_ID'; // replace later with auth
+    return this.tasksService.create(projectId, userId, dto);
   }
 
   @UseGuards(JwtAuthGuard, OrgAccessGuard)
@@ -34,18 +35,26 @@ export class TasksController {
   @UseGuards(JwtAuthGuard, OrgAccessGuard)
   @Patch(':taskId')
   update(@Param('taskId') taskId: string, @Body() dto: UpdateTaskDto) {
-    return this.tasksService.update(taskId, dto);
+    const userId = 'USER_ID'; // replace later with auth
+    return this.tasksService.update(taskId, userId, dto);
   }
 
   @UseGuards(JwtAuthGuard, OrgAccessGuard)
   @Delete(':taskId')
   remove(@Param('taskId') taskId: string) {
-    return this.tasksService.delete(taskId);
+    const userId = 'USER_ID'; // replace later with auth
+    return this.tasksService.delete(taskId, userId);
   }
 
   @Patch(':taskId/assign')
   assignTask(@Param('taskId') taskId: string, @Body() dto: AssignTaskDto) {
     const userId = 'USER_ID'; // replace with auth later
     return this.tasksService.assignTask(taskId, dto.assigneeId, userId);
+  }
+
+  @Patch(':taskId/unassign')
+  unassignTask(@Param('taskId') taskId: string) {
+    const userId = 'USER_ID'; // replace with auth later
+    return this.tasksService.unassignTask(taskId, userId);
   }
 }
