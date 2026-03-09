@@ -21,4 +21,10 @@ export class ProjectsService {
       orderBy: { createdAt: 'desc' },
     });
   }
+
+  async findOne(projectId: string, orgId: string) {
+    return this.prisma.project.findFirst({
+      where: { id: projectId, orgId },
+    });
+  }
 }
