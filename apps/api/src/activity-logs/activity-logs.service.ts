@@ -5,6 +5,18 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ActivityLogsService {
   constructor(private prisma: PrismaService) {}
 
+  private formatMessage(action: string, entity: string) {
+    const messages: Record<string, string> = {
+      TASK_CREATED: 'created a task',
+      TASK_UPDATED: 'updated a task',
+      TASK_DELETED: 'deleted a task',
+      PROJECT_CREATED: 'created a project',
+      PROJECT_UPDATED: 'updated a project',
+    };
+
+    return messages[action] || `${action} ${entity}`;
+  }
+
   async logActivity(
     userId: string,
     action: string,
@@ -28,18 +40,18 @@ export class ActivityLogsService {
   ) {
     const skip = (page - 1) * limit;
 
-    return this.prisma.activityLog.findMany({
-      where: {
-        projectId,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
+    const logs = await this.prisma.activityLog.findMany({
+      where: { projectId },
+      orderBy: { createdAt: 'desc' },
       skip,
       take: limit,
-      include: {
-        user: true,
-      },
+      include: { user: true },
     });
+
+    return logs.map((log) => ({
+      id: log.id,
+      message: `${log.user.name} ${this.formatMessage(log.action, log.entity)}`,
+      createdAt: log.createdAt,
+    }));
   }
 }
