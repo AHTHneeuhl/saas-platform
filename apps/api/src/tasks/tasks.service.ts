@@ -11,8 +11,8 @@ export class TasksService {
     private activityLogsService: ActivityLogsService,
   ) {}
 
-  async create(projectId: string, dto: CreateTaskDto) {
-    return this.prisma.task.create({
+  async create(projectId: string, userId: string, dto: CreateTaskDto) {
+    const task = await this.prisma.task.create({
       data: {
         title: dto.title,
         description: dto.description,
@@ -21,6 +21,15 @@ export class TasksService {
         projectId,
       },
     });
+
+    await this.activityLogsService.logActivity(
+      userId,
+      'TASK_CREATED',
+      'task',
+      task.id,
+    );
+
+    return task;
   }
 
   async findAll(projectId: string) {
