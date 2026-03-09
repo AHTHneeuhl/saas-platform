@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { ActivityLogsService } from 'src/activity-logs/activity-logs.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Injectable()
 export class TasksService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private activityLogsService: ActivityLogsService,
+  ) {}
 
   async create(projectId: string, dto: CreateTaskDto) {
     return this.prisma.task.create({
