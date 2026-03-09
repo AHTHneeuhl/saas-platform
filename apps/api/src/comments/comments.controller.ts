@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -15,5 +15,10 @@ export class CommentsController {
   @Get()
   getTaskComments(@Param('taskId') taskId: string) {
     return this.commentsService.getTaskComments(taskId);
+  }
+
+  @Delete(':commentId')
+  deleteComment(@Param('commentId') commentId: string) {
+    return this.commentsService.deleteComment(commentId);
   }
 }
