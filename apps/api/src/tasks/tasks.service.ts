@@ -76,4 +76,26 @@ export class TasksService {
 
     return task;
   }
+
+  async assignTask(taskId: string, assigneeId: string, userId: string) {
+    const task = await this.prisma.task.update({
+      where: { id: taskId },
+      data: {
+        assigneeId,
+      },
+      include: {
+        assignee: true,
+      },
+    });
+
+    await this.activityLogsService.logActivity(
+      userId,
+      'TASK_ASSIGNED',
+      'task',
+      task.id,
+      task.projectId,
+    );
+
+    return task;
+  }
 }

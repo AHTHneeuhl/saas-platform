@@ -13,6 +13,7 @@ import { OrgAccessGuard } from '../common/guards/org-access.guard';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TasksService } from './tasks.service';
+import { AssignTaskDto } from './dto/assign-task.dto';
 
 @Controller('org/:orgId/projects/:projectId/tasks')
 export class TasksController {
@@ -40,5 +41,11 @@ export class TasksController {
   @Delete(':taskId')
   remove(@Param('taskId') taskId: string) {
     return this.tasksService.delete(taskId);
+  }
+
+  @Patch(':taskId/assign')
+  assignTask(@Param('taskId') taskId: string, @Body() dto: AssignTaskDto) {
+    const userId = 'USER_ID'; // replace with auth later
+    return this.tasksService.assignTask(taskId, dto.assigneeId, userId);
   }
 }
