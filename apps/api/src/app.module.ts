@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ProjectsModule } from './projects/projects.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ActivityLogsModule } from './activity-logs/activity-logs.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ActivityLogsModule } from './activity-logs/activity-logs.module';
     ProjectsModule,
     TasksModule,
     ActivityLogsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
