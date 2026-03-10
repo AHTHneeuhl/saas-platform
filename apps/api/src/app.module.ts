@@ -8,6 +8,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ActivityLogsModule } from './activity-logs/activity-logs.module';
 import { CommentsModule } from './comments/comments.module';
+import { LabelsModule } from './labels/labels.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CommentsModule } from './comments/comments.module';
     TasksModule,
     ActivityLogsModule,
     CommentsModule,
+    LabelsModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
