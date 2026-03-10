@@ -9,6 +9,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { ActivityLogsModule } from './activity-logs/activity-logs.module';
 import { CommentsModule } from './comments/comments.module';
 import { LabelsModule } from './labels/labels.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { LabelsModule } from './labels/labels.module';
     ActivityLogsModule,
     CommentsModule,
     LabelsModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
