@@ -25,4 +25,13 @@ export class NotificationsService {
       },
     });
   }
+
+  async markAsRead(notificationId: string) {
+    return this.prisma.notification.update({
+      where: { id: notificationId },
+      data: {
+        read: true,
+      },
+    });
+  }
 }
