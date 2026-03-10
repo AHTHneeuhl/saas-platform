@@ -68,4 +68,37 @@ export class SearchService {
       },
     });
   }
+
+  async searchComments(
+    orgId: string,
+    query: string,
+    page: number,
+    limit: number,
+  ) {
+    const skip = (page - 1) * limit;
+
+    return this.prisma.comment.findMany({
+      where: {
+        deletedAt: null,
+        content: {
+          contains: query,
+          mode: 'insensitive',
+        },
+        task: {
+          project: {
+            orgId,
+          },
+        },
+      },
+      include: {
+        user: true,
+        task: true,
+      },
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
 }

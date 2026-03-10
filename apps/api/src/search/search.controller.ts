@@ -25,4 +25,14 @@ export class SearchController {
       dto.limit ?? 10,
     );
   }
+
+  @Get('/comments')
+  searchComments(@Query() dto: SearchDto, @Query('orgId') orgId: string) {
+    return this.searchService.searchComments(
+      orgId,
+      dto.query,
+      dto.page ?? 1,
+      dto.limit ?? 10,
+    );
+  }
 }
