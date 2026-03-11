@@ -33,7 +33,12 @@ export function ProjectsGrid({ refreshKey }: { refreshKey: number }) {
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {projects.map((p) => (
-        <ProjectCard key={p.id} name={p.name} description={p.description} />
+        <ProjectCard
+          key={p.id}
+          id={p.id}
+          name={p.name}
+          description={p.description}
+        />
       ))}
     </div>
   );
