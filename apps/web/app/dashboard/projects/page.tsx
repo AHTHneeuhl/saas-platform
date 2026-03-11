@@ -1,4 +1,5 @@
 import { NewProjectButton } from '@/app/components/projects/new-project-button';
+import { ProjectsGrid } from '@/app/components/projects/projects-grid';
 
 export default function ProjectsPage() {
   return (
@@ -8,6 +9,7 @@ export default function ProjectsPage() {
 
         <NewProjectButton />
       </div>
+      <ProjectsGrid />
     </div>
   );
 }
