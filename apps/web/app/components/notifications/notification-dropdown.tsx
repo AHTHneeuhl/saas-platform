@@ -8,6 +8,7 @@ import { fetchNotifications } from '@/services/notification-service';
 export function NotificationDropdown() {
   const notifications = useNotificationStore((s) => s.notifications);
   const setNotifications = useNotificationStore((s) => s.setNotifications);
+  const markAllAsRead = useNotificationStore((s) => s.markAllAsRead);
 
   useEffect(() => {
     async function load() {
@@ -20,7 +21,16 @@ export function NotificationDropdown() {
 
   return (
     <div className="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg">
-      <div className="p-3 border-b font-medium">Notifications</div>
+      <div className="p-3 border-b flex items-center justify-between">
+        <span className="font-medium">Notifications</span>
+
+        <button
+          onClick={markAllAsRead}
+          className="text-xs text-blue-600 hover:underline"
+        >
+          Mark all as read
+        </button>
+      </div>
 
       <div className="max-h-96 overflow-y-auto">
         {notifications.length === 0 ? (
