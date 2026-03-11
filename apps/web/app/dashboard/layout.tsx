@@ -23,7 +23,20 @@ export default function DashboardLayout({
     socket.onclose = () => {
       setConnected(false);
     };
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      if (data.type === 'task_created') {
+        console.log('Task created:', data.payload);
+      }
+
+      if (data.type === 'task_updated') {
+        console.log('Task updated:', data.payload);
+      }
+    };
   }, [setConnected]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="h-14 border-b flex items-center justify-between px-6">
