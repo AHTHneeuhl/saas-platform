@@ -2,6 +2,7 @@
 
 import { Notification } from '@/types/notification';
 import { useNotificationStore } from '@/store/notification-store';
+import { markNotificationRead } from '@/services/notification-service';
 
 interface Props {
   notification: Notification;
@@ -10,9 +11,10 @@ interface Props {
 export function NotificationItem({ notification }: Props) {
   const markAsRead = useNotificationStore((s) => s.markAsRead);
 
-  function handleClick() {
+  async function handleClick() {
     if (!notification.isRead) {
       markAsRead(notification.id);
+      await markNotificationRead(notification.id);
     }
   }
 

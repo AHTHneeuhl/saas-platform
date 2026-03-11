@@ -9,3 +9,13 @@ export async function fetchNotifications(): Promise<Notification[]> {
 
   return res.json();
 }
+
+export async function markNotificationRead(id: string) {
+  const res = await fetch(`/api/notifications/${id}/read`, {
+    method: 'PATCH',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to mark notification as read');
+  }
+}
