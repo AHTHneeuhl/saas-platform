@@ -13,9 +13,17 @@ export function TasksBoard({ tasks }: { tasks: Task[] }) {
   const done = tasks.filter((t) => t.status === 'done');
 
   function onDragEnd(result: DropResult) {
-    if (!result.destination) return;
+    const { source, destination } = result;
 
-    console.log(result);
+    if (!destination) return;
+
+    if (source.droppableId === destination.droppableId) return;
+
+    console.log('Move task', {
+      taskId: result.draggableId,
+      from: source.droppableId,
+      to: destination.droppableId,
+    });
   }
 
   return (
