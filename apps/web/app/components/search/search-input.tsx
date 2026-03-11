@@ -7,7 +7,7 @@ import { search } from '@/services/search-service';
 export function SearchInput() {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
-  const [, setResults] = useState([]);
+  const [results, setResults] = useState([]);
 
   return (
     <div className="relative">
@@ -31,7 +31,7 @@ export function SearchInput() {
         }}
         className="w-64 border rounded px-3 py-1.5 text-sm"
       />
-      {open && <SearchResultsDropdown />}
+      {open && <SearchResultsDropdown results={results} />}
     </div>
   );
 }
