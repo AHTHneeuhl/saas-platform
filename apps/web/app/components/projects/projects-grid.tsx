@@ -10,7 +10,7 @@ type Project = {
   description?: string;
 };
 
-export function ProjectsGrid({ reloadKey }: { reloadKey: boolean }) {
+export function ProjectsGrid({ refreshKey }: { refreshKey: number }) {
   const { token } = useAuthStore();
   const [projects, setProjects] = useState<Project[]>([]);
   const orgId = localStorage.getItem('orgId');
@@ -28,15 +28,13 @@ export function ProjectsGrid({ reloadKey }: { reloadKey: boolean }) {
 
   useEffect(() => {
     loadProjects();
-  }, [reloadKey]);
+  }, [refreshKey]);
 
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-      {projects
-        ? projects.map((p: Project) => (
-            <ProjectCard key={p.id} name={p.name} description={p.description} />
-          ))
-        : null}
+      {projects.map((p) => (
+        <ProjectCard key={p.id} name={p.name} description={p.description} />
+      ))}
     </div>
   );
 }

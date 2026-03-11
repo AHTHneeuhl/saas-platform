@@ -3,7 +3,13 @@
 import { useState } from 'react';
 import { useAuthStore } from '@/store/auth-store';
 
-export function CreateProjectModal({ onClose }: { onClose: () => void }) {
+export function CreateProjectModal({
+  onClose,
+  onCreated,
+}: {
+  onClose: () => void;
+  onCreated: () => void;
+}) {
   const orgId = localStorage.getItem('orgId');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -20,6 +26,7 @@ export function CreateProjectModal({ onClose }: { onClose: () => void }) {
     });
 
     onClose();
+    onCreated();
   }
 
   return (

@@ -7,6 +7,7 @@ import { CreateProjectModal } from '@/app/components/projects/create-project-mod
 
 export default function ProjectsPage() {
   const [open, setOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   return (
     <div className="p-6">
@@ -15,8 +16,18 @@ export default function ProjectsPage() {
 
         <NewProjectButton onClick={() => setOpen(true)} />
       </div>
-      <ProjectsGrid reloadKey={open} />
-      {open && <CreateProjectModal onClose={() => setOpen(false)} />}
+
+      <ProjectsGrid refreshKey={refreshKey} />
+
+      {open && (
+        <CreateProjectModal
+          onClose={() => setOpen(false)}
+          onCreated={() => {
+            setOpen(false);
+            setRefreshKey((k) => k + 1);
+          }}
+        />
+      )}
     </div>
   );
 }
