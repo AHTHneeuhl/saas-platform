@@ -1,5 +1,6 @@
 'use client';
 
+import { formatDistanceToNow } from 'date-fns';
 import { Notification } from '@/types/notification';
 import { useNotificationStore } from '@/store/notification-store';
 import { markNotificationRead } from '@/services/notification-service';
@@ -26,7 +27,11 @@ export function NotificationItem({ notification }: Props) {
       }`}
     >
       <p className="font-medium">{notification.title}</p>
-      <p className="text-gray-500">{notification.message}</p>
+      <p className="text-xs text-gray-400 mt-1">
+        {formatDistanceToNow(new Date(notification.createdAt), {
+          addSuffix: true,
+        })}
+      </p>
     </div>
   );
 }
