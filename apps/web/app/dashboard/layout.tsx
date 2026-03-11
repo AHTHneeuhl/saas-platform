@@ -37,6 +37,14 @@ export default function DashboardLayout({
       if (data.type === 'task_updated') {
         updateTask(data.payload);
       }
+
+      if (data.type === 'comment_created') {
+        console.log('Comment created:', data.payload);
+      }
+
+      if (data.type === 'comment_deleted') {
+        console.log('Comment deleted:', data.payload);
+      }
     };
   }, [setConnected]);
 
