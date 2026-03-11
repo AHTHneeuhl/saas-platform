@@ -1,6 +1,7 @@
 'use client';
 
 import { getSocket } from '@/lib/ws-client';
+import { useCommentStore } from '@/store/comment-store';
 import { useRealtimeStore } from '@/store/realtime-store';
 import { useTaskStore } from '@/store/task-store';
 import { useEffect } from 'react';
@@ -15,6 +16,7 @@ export default function DashboardLayout({
   const setConnected = useRealtimeStore((s) => s.setConnected);
   const addTask = useTaskStore((s) => s.addTask);
   const updateTask = useTaskStore((s) => s.updateTask);
+  const addComment = useCommentStore((s) => s.addComment);
 
   useEffect(() => {
     const socket = getSocket();
@@ -39,7 +41,7 @@ export default function DashboardLayout({
       }
 
       if (data.type === 'comment_created') {
-        console.log('Comment created:', data.payload);
+        addComment(data.payload);
       }
 
       if (data.type === 'comment_deleted') {
