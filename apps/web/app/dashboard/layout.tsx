@@ -17,6 +17,7 @@ export default function DashboardLayout({
   const addTask = useTaskStore((s) => s.addTask);
   const updateTask = useTaskStore((s) => s.updateTask);
   const addComment = useCommentStore((s) => s.addComment);
+  const deleteComment = useCommentStore((s) => s.deleteComment);
 
   useEffect(() => {
     const socket = getSocket();
@@ -45,7 +46,7 @@ export default function DashboardLayout({
       }
 
       if (data.type === 'comment_deleted') {
-        console.log('Comment deleted:', data.payload);
+        deleteComment(data.payload.id);
       }
     };
   }, [setConnected]);
