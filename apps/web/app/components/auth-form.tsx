@@ -50,17 +50,17 @@ export function AuthForm({ type }: AuthFormProps) {
 
   return (
     <div className="w-full max-w-md rounded-lg bg-white p-6 shadow">
-      <h1 className="mb-6 text-2xl font-semibold">
+      <h1 className="mb-6 text-2xl font-semibold text-neutral-700">
         {type === 'login' ? 'Login' : 'Create account'}
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {type === 'register' && (
           <div>
-            <label className="block text-sm mb-1">Name</label>
+            <label className="block text-sm mb-1 text-neutral-400">Name</label>
             <input
               {...register('name')}
-              className="w-full rounded border px-3 py-2"
+              className="w-full rounded border px-3 py-2 text-neutral-500"
             />
             {errors.name && (
               <p className="text-sm text-red-500">Name is required</p>
@@ -69,11 +69,11 @@ export function AuthForm({ type }: AuthFormProps) {
         )}
 
         <div>
-          <label className="block text-sm mb-1">Email</label>
+          <label className="block text-sm mb-1 text-neutral-400">Email</label>
           <input
             {...register('email')}
             type="email"
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded border px-3 py-2 text-neutral-500"
           />
           {errors.email && (
             <p className="text-sm text-red-500">Invalid email</p>
@@ -81,11 +81,13 @@ export function AuthForm({ type }: AuthFormProps) {
         </div>
 
         <div>
-          <label className="block text-sm mb-1">Password</label>
+          <label className="block text-sm mb-1 text-neutral-400">
+            Password
+          </label>
           <input
             {...register('password')}
             type="password"
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded border px-3 py-2 text-neutral-500"
           />
           {errors.password && (
             <p className="text-sm text-red-500">

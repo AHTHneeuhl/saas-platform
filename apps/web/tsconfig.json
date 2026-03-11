@@ -27,6 +27,6 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"],
-  "extends": "@repo/config/tsconfig.base.json"
+  "exclude": ["node_modules"]
+  // "extends": "@repo/packages/config/tsconfig.base.json"
 }
