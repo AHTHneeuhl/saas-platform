@@ -1,9 +1,16 @@
 'use client';
 
-export function CreateProjectModal() {
+export function CreateProjectModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40">
-      <div className="bg-white p-6 rounded-lg w-[400px]">
+      <div className="relative bg-white p-6 rounded-lg w-[400px]">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-3 text-gray-500 hover:text-black"
+        >
+          ✕
+        </button>
+
         <h2 className="text-lg font-semibold mb-4">Create Project</h2>
 
         <input

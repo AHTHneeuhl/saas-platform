@@ -16,7 +16,7 @@ export default function ProjectsPage() {
         <NewProjectButton onClick={() => setOpen(true)} />
       </div>
       <ProjectsGrid />
-      {open && <CreateProjectModal />}
+      {open && <CreateProjectModal onClose={() => setOpen(false)} />}
     </div>
   );
 }
