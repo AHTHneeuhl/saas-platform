@@ -10,6 +10,7 @@ import { ActivityLogsModule } from './activity-logs/activity-logs.module';
 import { CommentsModule } from './comments/comments.module';
 import { LabelsModule } from './labels/labels.module';
 import { SearchModule } from './search/search.module';
+import { RealtimeGateway } from './realtime/realtime.gateway';
 
 @Module({
   imports: [
@@ -23,6 +24,6 @@ import { SearchModule } from './search/search.module';
     SearchModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService, PrismaService, RealtimeGateway],
 })
 export class AppModule {}
