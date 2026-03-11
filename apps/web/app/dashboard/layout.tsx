@@ -1,6 +1,7 @@
 'use client';
 
 import { getSocket } from '@/lib/ws-client';
+import { useRealtimeStore } from '@/store/realtime-store';
 import { useEffect } from 'react';
 import { NotificationBell } from '../components/notifications/notification-bell';
 import { SearchInput } from '../components/search/search-input';
@@ -10,13 +11,19 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const setConnected = useRealtimeStore((s) => s.setConnected);
+
   useEffect(() => {
     const socket = getSocket();
 
     socket.onopen = () => {
-      console.log('Realtime connected');
+      setConnected(true);
     };
-  }, []);
+
+    socket.onclose = () => {
+      setConnected(false);
+    };
+  }, [setConnected]);
   return (
     <div className="min-h-screen flex flex-col">
       <header className="h-14 border-b flex items-center justify-between px-6">
