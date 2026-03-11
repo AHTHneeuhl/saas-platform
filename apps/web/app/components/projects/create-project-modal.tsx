@@ -1,6 +1,26 @@
 'use client';
 
+import { useState } from 'react';
+import { useAuth } from '@/context/auth-context';
+
 export function CreateProjectModal({ onClose }: { onClose: () => void }) {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const { token } = useAuth();
+
+  async function createProject() {
+    await fetch('http://localhost:4000/org/1/projects', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ name, description }),
+    });
+
+    onClose();
+  }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40">
       <div className="relative bg-white p-6 rounded-lg w-[400px]">
@@ -16,14 +36,21 @@ export function CreateProjectModal({ onClose }: { onClose: () => void }) {
         <input
           placeholder="Project name"
           className="w-full border p-2 rounded mb-3"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <textarea
           placeholder="Description"
           className="w-full border p-2 rounded mb-4"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
 
-        <button className="px-4 py-2 bg-blue-600 text-white rounded">
+        <button
+          className="px-4 py-2 bg-blue-600 text-white rounded"
+          onClick={createProject}
+        >
           Create
         </button>
       </div>
