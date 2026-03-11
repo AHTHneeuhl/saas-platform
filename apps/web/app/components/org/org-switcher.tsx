@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/context/auth-context';
 import { OrgItem } from './org-item';
+import { useAuthStore } from '@/store/auth-store';
 
 type Org = {
   id: string;
@@ -10,7 +10,7 @@ type Org = {
 };
 
 export function OrgSwitcher() {
-  const { token } = useAuth();
+  const { token } = useAuthStore();
   const [orgs, setOrgs] = useState<Org[]>([]);
   const [selectedOrg, setSelectedOrg] = useState<string>('');
 

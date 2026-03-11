@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuthStore } from '@/store/auth-store';
 
 export function CreateProjectModal({ onClose }: { onClose: () => void }) {
   const orgId = localStorage.getItem('orgId');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const { token } = useAuth();
+  const { token } = useAuthStore();
 
   async function createProject() {
     await fetch(`http://localhost:4000/org/${orgId}/projects`, {

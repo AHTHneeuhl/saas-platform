@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { ProjectCard } from './project-card';
-import { useAuth } from '@/context/auth-context';
+import { useAuthStore } from '@/store/auth-store';
 
 type Project = {
   id: string;
@@ -11,7 +11,7 @@ type Project = {
 };
 
 export function ProjectsGrid({ reloadKey }: { reloadKey: boolean }) {
-  const { token } = useAuth();
+  const { token } = useAuthStore();
   const [projects, setProjects] = useState<Project[]>([]);
   const orgId = localStorage.getItem('orgId');
 

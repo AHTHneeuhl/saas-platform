@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuthStore } from '@/store/auth-store';
 
 export function CreateOrgModal({ onClose }: { onClose: () => void }) {
-  const { token } = useAuth();
+  const { token } = useAuthStore();
   const [name, setName] = useState('');
 
   async function createOrg() {
