@@ -2,6 +2,7 @@
 
 import { getSocket } from '@/lib/ws-client';
 import { useCommentStore } from '@/store/comment-store';
+import { useNotificationStore } from '@/store/notification-store';
 import { useRealtimeStore } from '@/store/realtime-store';
 import { useTaskStore } from '@/store/task-store';
 import { useEffect } from 'react';
@@ -18,6 +19,7 @@ export default function DashboardLayout({
   const updateTask = useTaskStore((s) => s.updateTask);
   const addComment = useCommentStore((s) => s.addComment);
   const deleteComment = useCommentStore((s) => s.deleteComment);
+  const addNotification = useNotificationStore((s) => s.addNotification);
 
   useEffect(() => {
     const socket = getSocket();
@@ -47,6 +49,10 @@ export default function DashboardLayout({
 
       if (data.type === 'comment_deleted') {
         deleteComment(data.payload.id);
+      }
+
+      if (data.type === 'notification_created') {
+        addNotification(data.payload);
       }
     };
   }, [setConnected]);
