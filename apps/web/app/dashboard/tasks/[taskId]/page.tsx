@@ -72,6 +72,14 @@ export default function TaskDetailsPage() {
           <option>User 2</option>
         </select>
       </div>
+      <div className="mt-6">
+        <label className="block text-sm font-medium mb-2">Labels</label>
+
+        <div className="flex gap-2">
+          <span className="px-2 py-1 text-xs bg-gray-200 rounded">bug</span>
+          <span className="px-2 py-1 text-xs bg-gray-200 rounded">feature</span>
+        </div>
+      </div>
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Comments</h2>
 
