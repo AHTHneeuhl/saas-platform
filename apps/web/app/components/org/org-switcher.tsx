@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { OrgItem } from './org-item';
 import { useAuthStore } from '@/store/auth-store';
+import { useOrgStore } from '@/store/org-store';
 
 type Org = {
   id: string;
@@ -12,7 +13,7 @@ type Org = {
 export function OrgSwitcher() {
   const { token } = useAuthStore();
   const [orgs, setOrgs] = useState<Org[]>([]);
-  const [selectedOrg, setSelectedOrg] = useState<string>('');
+  const { orgId, setOrgId } = useOrgStore();
 
   useEffect(() => {
     fetch('http://localhost:4000/org', {
@@ -24,20 +25,11 @@ export function OrgSwitcher() {
       .then((data) => setOrgs(data.data));
   }, []);
 
-  useEffect(() => {
-    const stored = localStorage.getItem('orgId');
-    if (stored) setSelectedOrg(stored);
-  }, []);
-
   return (
     <select
       className="border rounded-md px-3 py-2 w-[200px]"
-      value={selectedOrg}
-      onChange={(e) => {
-        const id = e.target.value;
-        setSelectedOrg(id);
-        localStorage.setItem('orgId', id);
-      }}
+      value={orgId ?? ''}
+      onChange={(e) => setOrgId(e.target.value)}
     >
       <option>Select Workspace</option>
 
