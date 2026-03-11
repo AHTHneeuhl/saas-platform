@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useAuthStore } from '@/store/auth-store';
 import { useOrgStore } from '@/store/org-store';
+import { CommentInput } from '@/app/components/tasks/comment-input';
 
 type Task = {
   id: string;
@@ -11,8 +12,14 @@ type Task = {
   description?: string;
 };
 
+type Comment = {
+  id: string;
+  text: string;
+};
+
 export default function TaskDetailsPage() {
   const [task, setTask] = useState<Task | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
   const { taskId } = useParams();
   const { token } = useAuthStore();
   const { orgId } = useOrgStore();
@@ -31,6 +38,21 @@ export default function TaskDetailsPage() {
       const data = await res.json();
       setTask(data);
     }
+    async function loadComments() {
+      const res = await fetch(
+        `http://localhost:4000/org/${orgId}/tasks/${taskId}/comments`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await res.json();
+      setComments(data.data);
+    }
+
+    loadComments();
 
     loadTask();
   }, []);
@@ -45,8 +67,14 @@ export default function TaskDetailsPage() {
         <h2 className="text-xl font-semibold mb-4">Comments</h2>
 
         <div className="space-y-3">
-          <div className="border rounded p-3 text-sm">Example comment...</div>
+          {comments.map((c) => (
+            <div key={c.id} className="border rounded p-3 text-sm">
+              {c.text}
+            </div>
+          ))}
         </div>
+
+        <CommentInput />
       </div>
     </div>
   );
