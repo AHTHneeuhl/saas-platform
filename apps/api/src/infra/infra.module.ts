@@ -2,6 +2,8 @@ import { BullModule } from '@nestjs/bull';
 import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { redisStore } from 'cache-manager-ioredis-yet';
+import { NotificationsProcessor } from './queues/notifications/notifications.processor';
+import { WebhooksProcessor } from './queues/webhooks/webhooks.processor';
 
 @Module({
   imports: [
@@ -22,5 +24,6 @@ import { redisStore } from 'cache-manager-ioredis-yet';
 
     BullModule.registerQueue({ name: 'notifications' }, { name: 'webhooks' }),
   ],
+  providers: [NotificationsProcessor, WebhooksProcessor],
 })
 export class InfraModule {}
