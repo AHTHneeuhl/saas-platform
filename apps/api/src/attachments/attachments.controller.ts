@@ -25,10 +25,22 @@ export class AttachmentsController {
       storage: diskStorage({
         destination: './uploads',
         filename: (req, file, cb) => {
-          const uniqueName = `${Date.now()}-${file.originalname}`;
-          cb(null, uniqueName);
+          const name = `${Date.now()}-${file.originalname}`;
+          cb(null, name);
         },
       }),
+      limits: {
+        fileSize: 2 * 1024 * 1024, // 2 MB
+      },
+      fileFilter: (req, file, cb) => {
+        const allowed = ['image/png', 'image/jpeg', 'application/pdf'];
+
+        if (allowed.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(new Error('Invalid file type'), false);
+        }
+      },
     }),
   )
   uploadAttachment(
