@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { RealtimeGateway } from 'src/realtime/realtime.gateway';
 import { GithubWebhookPayload } from './github.types';
 
 @Injectable()
 export class GithubService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private realtimeGateway: RealtimeGateway,
+  ) {}
 
   getGithubOAuthUrl() {
     const clientId = process.env.GITHUB_CLIENT_ID;
@@ -38,6 +42,11 @@ export class GithubService {
           status: 'TODO',
           projectId,
         },
+      });
+
+      this.realtimeGateway.server.emit('github.task.created', {
+        title: issue.title,
+        source: 'github',
       });
     }
 
