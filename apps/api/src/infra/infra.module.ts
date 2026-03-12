@@ -2,6 +2,7 @@ import { BullModule } from '@nestjs/bull';
 import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { redisStore } from 'cache-manager-ioredis-yet';
+import { HealthController } from './health.controller';
 import { CleanupJob } from './jobs/cleanup.job';
 import { NotificationsProcessor } from './queues/notifications/notifications.processor';
 import { WebhooksProcessor } from './queues/webhooks/webhooks.processor';
@@ -26,5 +27,6 @@ import { WebhooksProcessor } from './queues/webhooks/webhooks.processor';
     BullModule.registerQueue({ name: 'notifications' }, { name: 'webhooks' }),
   ],
   providers: [NotificationsProcessor, WebhooksProcessor, CleanupJob],
+  controllers: [HealthController],
 })
 export class InfraModule {}
