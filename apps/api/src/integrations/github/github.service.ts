@@ -26,14 +26,19 @@ export class GithubService {
   }
 
   async handleWebhook(payload: GithubWebhookPayload) {
-    const event = payload.action;
+    if (payload.action === 'opened' && payload.pull_request) {
+      const pr = payload.pull_request as { title: string; html_url: string };
 
-    if (event === 'opened' && payload.pull_request) {
-      // PR opened
-    }
+      const projectId = 'PROJECT_ID'; // temporary mapping
 
-    if (event === 'opened' && payload.issue) {
-      // Issue opened
+      await this.prisma.task.create({
+        data: {
+          title: pr.title,
+          description: pr.html_url,
+          status: 'TODO',
+          projectId,
+        },
+      });
     }
 
     return { received: true };
