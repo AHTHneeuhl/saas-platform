@@ -60,4 +60,16 @@ export class AnalyticsService {
       },
     });
   }
+
+  async getProjectDashboard(projectId: string) {
+    const metrics = await this.getProjectMetrics(projectId);
+    const completion = await this.getTaskCompletionRate(projectId);
+    const productivity = await this.getUserProductivity(projectId);
+
+    return {
+      metrics,
+      completion,
+      productivity,
+    };
+  }
 }

@@ -9,4 +9,9 @@ export class AnalyticsController {
   getProjectMetrics(@Param('projectId') projectId: string) {
     return this.analyticsService.getProjectMetrics(projectId);
   }
+
+  @Get('projects/:projectId/dashboard')
+  getProjectDashboard(@Param('projectId') projectId: string) {
+    return this.analyticsService.getProjectDashboard(projectId);
+  }
 }
