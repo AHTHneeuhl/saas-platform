@@ -11,6 +11,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { RealtimeGateway } from './realtime/realtime.gateway';
 import { SearchModule } from './search/search.module';
 import { TasksModule } from './tasks/tasks.module';
+import { AttachmentsModule } from './attachments/attachments.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TasksModule } from './tasks/tasks.module';
     CommentsModule,
     LabelsModule,
     SearchModule,
+    AttachmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService, RealtimeGateway],
