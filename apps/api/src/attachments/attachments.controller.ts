@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -33,8 +34,9 @@ export class AttachmentsController {
   uploadAttachment(
     @Param('taskId') taskId: string,
     @UploadedFile() file: Express.Multer.File,
+    @Req() req,
   ) {
-    return this.attachmentsService.uploadAttachment(taskId, file);
+    return this.attachmentsService.uploadAttachment(taskId, file, req.user.id);
   }
 
   @Get('tasks/:taskId')

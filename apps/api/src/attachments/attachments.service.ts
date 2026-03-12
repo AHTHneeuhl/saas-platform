@@ -1,21 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { RealtimeGateway } from 'src/realtime/realtime.gateway';
 
 @Injectable()
 export class AttachmentsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private realtimeGateway: RealtimeGateway,
+  ) {}
 
-  async uploadAttachment(taskId: string, file: Express.Multer.File) {
-    return this.prisma.attachment.create({
+  async uploadAttachment(
+    taskId: string,
+    file: Express.Multer.File,
+    userId: string,
+  ) {
+    const attachment = await this.prisma.attachment.create({
       data: {
         fileName: file.originalname,
         fileUrl: file.path,
         fileSize: file.size,
         mimeType: file.mimetype,
         taskId,
-        uploadedById: 'USER_ID', // temporary
+        uploadedById: userId,
       },
     });
+
+    this.realtimeGateway.server.emit('attachment.created', attachment);
+
+    return attachment;
   }
 
   async getTaskAttachments(taskId: string) {
