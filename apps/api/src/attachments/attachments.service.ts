@@ -47,8 +47,15 @@ export class AttachmentsService {
       fs.unlinkSync(attachment.fileUrl);
     }
 
-    return this.prisma.attachment.delete({
+    const deleted = await this.prisma.attachment.delete({
       where: { id },
     });
+
+    this.realtimeGateway.server.emit('attachment.deleted', {
+      id: deleted.id,
+      taskId: deleted.taskId,
+    });
+
+    return deleted;
   }
 }
