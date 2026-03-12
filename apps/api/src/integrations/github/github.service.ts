@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { GithubWebhookPayload } from './github.types';
 
 @Injectable()
 export class GithubService {
@@ -22,5 +23,19 @@ export class GithubService {
         userId,
       },
     });
+  }
+
+  async handleWebhook(payload: GithubWebhookPayload) {
+    const event = payload.action;
+
+    if (event === 'opened' && payload.pull_request) {
+      // PR opened
+    }
+
+    if (event === 'opened' && payload.issue) {
+      // Issue opened
+    }
+
+    return { received: true };
   }
 }
