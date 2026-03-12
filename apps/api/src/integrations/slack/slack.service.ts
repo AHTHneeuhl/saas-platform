@@ -23,4 +23,18 @@ export class SlackService {
       },
     });
   }
+
+  async sendTaskNotification(token: string, text: string) {
+    await fetch('https://slack.com/api/chat.postMessage', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        channel: '#devflow',
+        text,
+      }),
+    });
+  }
 }
