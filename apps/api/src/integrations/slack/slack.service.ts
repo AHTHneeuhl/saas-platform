@@ -37,4 +37,14 @@ export class SlackService {
       }),
     });
   }
+
+  async handleSlashCommand(body: Record<string, string>) {
+    if (body.command === '/devflow') {
+      return {
+        text: 'DevFlow command received 🚀',
+      };
+    }
+
+    return { text: 'Unknown command' };
+  }
 }
