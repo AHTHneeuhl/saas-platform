@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class SlackService {
+  constructor(private prisma: PrismaService) {}
+
   getSlackOAuthUrl() {
     const clientId = process.env.SLACK_CLIENT_ID;
     const redirectUri = process.env.SLACK_REDIRECT_URI;
@@ -9,5 +12,15 @@ export class SlackService {
     return {
       url: `https://slack.com/oauth/v2/authorize?client_id=${clientId}&scope=chat:write&redirect_uri=${redirectUri}`,
     };
+  }
+
+  async saveSlackToken(userId: string, token: string) {
+    return this.prisma.integration.create({
+      data: {
+        provider: 'slack',
+        accessToken: token,
+        userId,
+      },
+    });
   }
 }
