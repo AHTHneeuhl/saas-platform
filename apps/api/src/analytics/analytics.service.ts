@@ -5,23 +5,26 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class AnalyticsService {
   constructor(private readonly prisma: PrismaService) {}
   async getProjectMetrics(projectId: string) {
-    const total = await this.prisma.task.count({
+    const stats = await this.prisma.task.groupBy({
+      by: ['status'],
       where: { projectId },
+      _count: {
+        id: true,
+      },
     });
 
-    const completed = await this.prisma.task.count({
-      where: { projectId, status: 'DONE' },
-    });
+    let total = 0;
+    let completed = 0;
+    let pending = 0;
 
-    const pending = await this.prisma.task.count({
-      where: { projectId, status: 'TODO' },
-    });
+    for (const s of stats) {
+      total += s._count.id;
 
-    return {
-      total,
-      completed,
-      pending,
-    };
+      if (s.status === 'DONE') completed = s._count.id;
+      if (s.status === 'TODO') pending = s._count.id;
+    }
+
+    return { total, completed, pending };
   }
 
   async getTaskCompletionRate(projectId: string) {
