@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import * as crypto from 'crypto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RealtimeGateway } from 'src/realtime/realtime.gateway';
 import { GithubWebhookPayload } from './github.types';
@@ -29,7 +30,20 @@ export class GithubService {
     });
   }
 
-  async handleWebhook(payload: GithubWebhookPayload) {
+  async handleWebhook(payload: GithubWebhookPayload, signature: string) {
+    const secret = process.env.GITHUB_WEBHOOK_SECRET ?? '';
+
+    const hash =
+      'sha256=' +
+      crypto
+        .createHmac('sha256', secret)
+        .update(JSON.stringify(payload))
+        .digest('hex');
+
+    if (hash !== signature) {
+      throw new Error('Invalid GitHub signature');
+    }
+
     if (payload.action === 'opened' && payload.issue) {
       const issue = payload.issue as { title: string; html_url: string };
 
