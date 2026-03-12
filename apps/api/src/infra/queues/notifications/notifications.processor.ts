@@ -3,8 +3,30 @@ import type { Job } from 'bull';
 
 @Processor('notifications')
 export class NotificationsProcessor {
-  @Process()
+  @Process('send-notification')
   async handle(job: Job) {
-    console.log('notification job', job.data);
+    try {
+      const { notificationId, userId, title, message } = job.data as {
+        notificationId: string;
+        userId: string;
+        title: string;
+        message: string;
+      };
+
+      console.log('Processing notification', {
+        notificationId,
+        userId,
+        title,
+        message,
+      });
+
+      // here later:
+      // send email
+      // push notification
+      // slack message
+    } catch (error) {
+      console.error('Notification job failed', error);
+      throw error; // allows Bull to retry
+    }
   }
 }
