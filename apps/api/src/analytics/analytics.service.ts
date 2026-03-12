@@ -37,4 +37,14 @@ export class AnalyticsService {
 
     return { total, completed, rate };
   }
+
+  async getTasksCreatedPerDay(projectId: string) {
+    return this.prisma.$queryRaw`
+    SELECT DATE("createdAt") as date, COUNT(*) as count
+    FROM "Task"
+    WHERE "projectId" = ${projectId}
+    GROUP BY DATE("createdAt")
+    ORDER BY date ASC
+  `;
+  }
 }
