@@ -1,4 +1,6 @@
+import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
+import type { Queue } from 'bull';
 import { RealtimeGateway } from 'src/realtime/realtime.gateway';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -7,6 +9,8 @@ export class NotificationsService {
   constructor(
     private prisma: PrismaService,
     private realtimeGateway: RealtimeGateway,
+    @InjectQueue('notifications')
+    private notificationsQueue: Queue,
   ) {}
 
   async createNotification(userId: string, title: string, message: string) {
@@ -18,7 +22,20 @@ export class NotificationsService {
       },
     });
 
-    // realtime event
+    await this.notificationsQueue.add(
+      'send-notification',
+      {
+        notificationId: notification.id,
+        userId,
+        title,
+        message,
+      },
+      {
+        attempts: 3,
+        backoff: 5000,
+      },
+    );
+
     this.realtimeGateway.emit('notification.created', notification);
 
     return notification;
