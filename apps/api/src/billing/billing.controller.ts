@@ -17,6 +17,11 @@ export class BillingController {
     return this.stripe.createCheckoutSession(body.customerId, body.priceId);
   }
 
+  @Post('portal')
+  async portal(@Body() body: { customerId: string }) {
+    return this.stripe.createBillingPortal(body.customerId);
+  }
+
   @Post('webhook')
   async webhook(@Req() req: Request, @Headers('stripe-signature') sig: string) {
     const event = this.stripe.client.webhooks.constructEvent(
