@@ -14,4 +14,19 @@ export class StripeService {
   get client() {
     return this.stripe;
   }
+
+  async createCheckoutSession(customerId: string, priceId: string) {
+    return this.stripe.checkout.sessions.create({
+      customer: customerId,
+      mode: 'subscription',
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      success_url: 'http://localhost:3000/billing/success',
+      cancel_url: 'http://localhost:3000/billing/cancel',
+    });
+  }
 }
