@@ -30,9 +30,10 @@ import { TasksModule } from './tasks/tasks.module';
     }),
 
     ScheduleModule.forRoot(),
+
     LoggerModule.forRoot({
       pinoHttp: {
-        level: 'info',
+        genReqId: (req) => req.headers['x-request-id'] || crypto.randomUUID(),
       },
     }),
 
