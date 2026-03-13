@@ -41,32 +41,38 @@ export function AttachmentList({ taskId }: Props) {
 
   return (
     <div className="space-y-2">
-      {attachments.map((a) => (
-        <a
-          key={a.id}
-          href={a.url}
-          target="_blank"
-          className="block border rounded p-2 text-sm hover:bg-gray-50"
-        >
-          <div className="flex justify-between items-center">
-            <a
-              href={a.url}
-              target="_blank"
-              download
-              className="text-sm hover:underline"
-            >
-              {a.filename}
-            </a>
+      {attachments
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        )
+        .map((a) => (
+          <a
+            key={a.id}
+            href={a.url}
+            target="_blank"
+            className="block border rounded p-2 text-sm hover:bg-gray-50"
+          >
+            <div className="flex justify-between items-center">
+              <a
+                href={a.url}
+                target="_blank"
+                download
+                className="text-sm hover:underline"
+              >
+                {a.filename}
+              </a>
 
-            <button
-              onClick={() => handleDelete(a.id)}
-              className="text-xs text-red-500"
-            >
-              Delete
-            </button>
-          </div>
-        </a>
-      ))}
+              <button
+                onClick={() => handleDelete(a.id)}
+                className="text-xs text-red-500"
+              >
+                Delete
+              </button>
+            </div>
+          </a>
+        ))}
     </div>
   );
 }
