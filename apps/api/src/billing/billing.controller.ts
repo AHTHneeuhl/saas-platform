@@ -1,4 +1,4 @@
-import { Body, Controller, Headers, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Req } from '@nestjs/common';
 import type { Request } from 'express';
 import Stripe from 'stripe';
 
@@ -11,6 +11,20 @@ export class BillingController {
     private readonly stripe: StripeService,
     private readonly prisma: PrismaService,
   ) {}
+
+  @Get('admin/metrics')
+  async metrics() {
+    const active = await this.prisma.subscription.count({
+      where: { status: 'active' },
+    });
+
+    const total = await this.prisma.subscription.count();
+
+    return {
+      activeSubscriptions: active,
+      totalSubscriptions: total,
+    };
+  }
 
   @Post('checkout')
   async checkout(@Body() body: { customerId: string; priceId: string }) {
