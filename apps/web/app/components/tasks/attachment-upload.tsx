@@ -15,21 +15,21 @@ export function AttachmentUpload({ taskId }: { taskId: string }) {
 
     setUploading(true);
 
-    for (const file of Array.from(files)) {
-      try {
+    try {
+      for (const file of Array.from(files)) {
         await attachmentService.upload(file, taskId);
-      } catch (err) {
-        console.error('Upload failed', err);
       }
-    }
 
-    setUploading(false);
+      const items = await attachmentService.list(taskId);
+      setAttachments(items);
+    } catch (err) {
+      console.error('Upload failed', err);
+    } finally {
+      setUploading(false);
 
-    const items = await attachmentService.list(taskId);
-    setAttachments(items);
-
-    if (inputRef.current) {
-      inputRef.current.value = '';
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
     }
   };
 
