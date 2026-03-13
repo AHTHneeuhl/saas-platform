@@ -11,6 +11,9 @@ export function AttachmentList({ taskId }: Props) {
   const setAttachments = useAttachmentStore((s) => s.setAttachments);
 
   const handleDelete = async (id: string) => {
+    const ok = confirm('Delete this attachment?');
+    if (!ok) return;
+
     await attachmentService.remove(id);
 
     const items = await attachmentService.list(taskId);
