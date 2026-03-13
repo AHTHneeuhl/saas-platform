@@ -38,7 +38,12 @@ export function AttachmentList({ taskId }: Props) {
           className="block border rounded p-2 text-sm hover:bg-gray-50"
         >
           <div className="flex justify-between items-center">
-            <a href={a.url} target="_blank" className="text-sm hover:underline">
+            <a
+              href={a.url}
+              target="_blank"
+              download
+              className="text-sm hover:underline"
+            >
               {a.filename}
             </a>
 
