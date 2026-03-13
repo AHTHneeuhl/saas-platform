@@ -5,6 +5,7 @@ import { UsageLimits } from '@/app/components/billing/usage-limits';
 import { billingService } from '@/services/billing-service';
 import { useBillingStore } from '@/store/billing-store';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 export default function BillingPage() {
   const plan = useBillingStore((s) => s.plan);
@@ -31,7 +32,7 @@ export default function BillingPage() {
         setPlan(data.plan);
       })
       .catch(() => {
-        console.error('Failed to load subscription');
+        toast.error('Failed to load subscription');
       })
       .finally(() => {
         setLoading(false);
