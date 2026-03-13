@@ -1,4 +1,12 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
+import type { Response } from 'express';
+import { register } from 'prom-client';
 
-@Controller('observability')
-export class ObservabilityController {}
+@Controller('metrics')
+export class ObservabilityController {
+  @Get()
+  async metrics(@Res() res: Response) {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+  }
+}
