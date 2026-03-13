@@ -3,8 +3,11 @@
 import { SubscriptionStatus } from '@/app/components/billing/subscription-status';
 import { UsageLimits } from '@/app/components/billing/usage-limits';
 import { billingService } from '@/services/billing-service';
+import { useBillingStore } from '@/store/billing-store';
 
 export default function BillingPage() {
+  const plan = useBillingStore((s) => s.plan);
+
   const handleCheckout = async () => {
     const { url } = await billingService.checkout();
     window.location.href = url;
@@ -20,7 +23,7 @@ export default function BillingPage() {
       <h1 className="text-2xl font-semibold">Billing</h1>
 
       <div className="mt-6 space-y-4">
-        <SubscriptionStatus plan="Free" />
+        <SubscriptionStatus plan={plan} />
         <UsageLimits
           projects={2}
           projectLimit={5}
