@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
 import { attachmentService } from '@/services/attachment-service';
 import { useAttachmentStore } from '@/store/attachment-store';
+import { useEffect } from 'react';
+import { AttachmentItem } from './attachment-item';
 
 type Props = { taskId: string };
 
@@ -48,30 +49,7 @@ export function AttachmentList({ taskId }: Props) {
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         )
         .map((a) => (
-          <a
-            key={a.id}
-            href={a.url}
-            target="_blank"
-            className="block border rounded p-2 text-sm hover:bg-gray-50"
-          >
-            <div className="flex justify-between items-center">
-              <a
-                href={a.url}
-                target="_blank"
-                download
-                className="text-sm hover:underline"
-              >
-                {a.filename}
-              </a>
-
-              <button
-                onClick={() => handleDelete(a.id)}
-                className="text-xs text-red-500"
-              >
-                Delete
-              </button>
-            </div>
-          </a>
+          <AttachmentItem key={a.id} attachment={a} onDelete={handleDelete} />
         ))}
     </div>
   );
