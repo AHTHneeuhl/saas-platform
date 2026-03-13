@@ -19,3 +19,12 @@ export async function getAttachments(taskId: string) {
 
   return res.json();
 }
+
+export async function deleteAttachment(id: string) {
+  const res = await fetch(`/api/attachments/${id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+
+  return res.json();
+}
