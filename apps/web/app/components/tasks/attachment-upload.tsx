@@ -7,10 +7,12 @@ export function AttachmentUpload({ taskId }: { taskId: string }) {
   const setAttachments = useAttachmentStore((s) => s.setAttachments);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files) return;
 
-    await attachmentService.upload(file, taskId);
+    for (const file of Array.from(files)) {
+      await attachmentService.upload(file, taskId);
+    }
 
     const items = await attachmentService.list(taskId);
     setAttachments(items);
@@ -18,7 +20,7 @@ export function AttachmentUpload({ taskId }: { taskId: string }) {
 
   return (
     <div>
-      <input type="file" onChange={handleUpload} />
+      <input type="file" multiple onChange={handleUpload} />
     </div>
   );
 }
