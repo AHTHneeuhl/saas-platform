@@ -30,6 +30,13 @@ export class StripeService {
     });
   }
 
+  async createBillingPortal(customerId: string) {
+    return this.stripe.billingPortal.sessions.create({
+      customer: customerId,
+      return_url: 'http://localhost:3000/settings/billing',
+    });
+  }
+
   async createCustomer(email: string) {
     return this.stripe.customers.create({
       email,
