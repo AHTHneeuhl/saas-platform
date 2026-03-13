@@ -37,6 +37,10 @@ export class StripeService {
     });
   }
 
+  async cancelSubscription(subscriptionId: string) {
+    return this.stripe.subscriptions.cancel(subscriptionId);
+  }
+
   async createCustomer(email: string) {
     return this.stripe.customers.create({
       email,
