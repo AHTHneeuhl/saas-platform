@@ -16,7 +16,20 @@ export function AttachmentUpload({ taskId }: { taskId: string }) {
     setUploading(true);
 
     try {
+      const allowed = [
+        'image/png',
+        'image/jpeg',
+        'image/webp',
+        'application/pdf',
+        'text/plain',
+      ];
+
       for (const file of Array.from(files)) {
+        if (!allowed.includes(file.type)) {
+          console.error('Invalid file type:', file.type);
+          continue;
+        }
+
         await attachmentService.upload(file, taskId);
       }
 
