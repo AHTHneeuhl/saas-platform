@@ -1,20 +1,19 @@
 'use client';
 
 import { attachmentService } from '@/services/attachment-service';
+import { useAttachmentStore } from '@/store/attachment-store';
 
 export function AttachmentUpload({ taskId }: { taskId: string }) {
-  const MAX_SIZE = 2 * 1024 * 1024; // 2 MB
+  const setAttachments = useAttachmentStore((s) => s.setAttachments);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > MAX_SIZE) {
-      alert('File too large (max 10MB)');
-      return;
-    }
-
     await attachmentService.upload(file, taskId);
+
+    const items = await attachmentService.list(taskId);
+    setAttachments(items);
   };
 
   return (
