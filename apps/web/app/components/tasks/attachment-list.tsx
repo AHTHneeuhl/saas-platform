@@ -10,6 +10,13 @@ export function AttachmentList({ taskId }: Props) {
   const attachments = useAttachmentStore((s) => s.attachments);
   const setAttachments = useAttachmentStore((s) => s.setAttachments);
 
+  const handleDelete = async (id: string) => {
+    await attachmentService.remove(id);
+
+    const items = await attachmentService.list(taskId);
+    setAttachments(items);
+  };
+
   useEffect(() => {
     attachmentService.list(taskId).then(setAttachments);
   }, [taskId, setAttachments]);
@@ -27,11 +34,17 @@ export function AttachmentList({ taskId }: Props) {
           target="_blank"
           className="block border rounded p-2 text-sm hover:bg-gray-50"
         >
-          <div className="flex justify-between">
-            <span>{a.filename}</span>
-            <span className="text-gray-400 text-xs">
-              {(a.size / 1024).toFixed(1)} KB
-            </span>
+          <div className="flex justify-between items-center">
+            <a href={a.url} target="_blank" className="text-sm hover:underline">
+              {a.filename}
+            </a>
+
+            <button
+              onClick={() => handleDelete(a.id)}
+              className="text-xs text-red-500"
+            >
+              Delete
+            </button>
           </div>
         </a>
       ))}
