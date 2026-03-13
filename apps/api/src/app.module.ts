@@ -34,7 +34,12 @@ import { TasksModule } from './tasks/tasks.module';
 
     LoggerModule.forRoot({
       pinoHttp: {
+        level: 'info',
         genReqId: (req) => req.headers['x-request-id'] || crypto.randomUUID(),
+        transport:
+          process.env.NODE_ENV !== 'production'
+            ? { target: 'pino-pretty' }
+            : undefined,
       },
     }),
 
