@@ -1,8 +1,9 @@
 'use client';
 
-import { useRef, useState } from 'react';
 import { attachmentService } from '@/services/attachment-service';
 import { useAttachmentStore } from '@/store/attachment-store';
+import { useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 export function AttachmentUpload({ taskId }: { taskId: string }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -26,7 +27,7 @@ export function AttachmentUpload({ taskId }: { taskId: string }) {
 
       for (const file of Array.from(files)) {
         if (!allowed.includes(file.type)) {
-          console.error('Invalid file type:', file.type);
+          toast.error('Unsupported file type');
           continue;
         }
 
