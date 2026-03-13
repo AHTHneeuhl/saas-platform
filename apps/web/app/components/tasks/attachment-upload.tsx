@@ -56,6 +56,7 @@ export function AttachmentUpload({ taskId }: { taskId: string }) {
         type="file"
         multiple
         disabled={uploading}
+        accept=".png,.jpg,.jpeg,.webp,.pdf,.txt"
         onChange={handleUpload}
       />
     </div>
