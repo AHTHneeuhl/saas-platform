@@ -37,7 +37,13 @@ export function AttachmentUpload({ taskId }: { taskId: string }) {
     <div>
       {uploading && <p className="text-sm text-gray-500">Uploading...</p>}
 
-      <input ref={inputRef} type="file" multiple onChange={handleUpload} />
+      <input
+        ref={inputRef}
+        type="file"
+        multiple
+        disabled={uploading}
+        onChange={handleUpload}
+      />
     </div>
   );
 }
