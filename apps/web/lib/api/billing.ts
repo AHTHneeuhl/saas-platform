@@ -1,4 +1,9 @@
-export async function createCheckoutSession() {
+import {
+  CheckoutSessionResponse,
+  BillingPortalResponse,
+} from '@/types/billing';
+
+export async function createCheckoutSession(): Promise<CheckoutSessionResponse> {
   const res = await fetch('/api/billing/checkout', {
     method: 'POST',
     credentials: 'include',
@@ -7,7 +12,7 @@ export async function createCheckoutSession() {
   return res.json();
 }
 
-export async function createBillingPortal() {
+export async function createBillingPortal(): Promise<BillingPortalResponse> {
   const res = await fetch('/api/billing/portal', {
     method: 'POST',
     credentials: 'include',
