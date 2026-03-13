@@ -9,6 +9,8 @@ type Props = { taskId: string };
 export function AttachmentList({ taskId }: Props) {
   const attachments = useAttachmentStore((s) => s.attachments);
   const setAttachments = useAttachmentStore((s) => s.setAttachments);
+  const loading = useAttachmentStore((s) => s.loading);
+  const setLoading = useAttachmentStore((s) => s.setLoading);
 
   const handleDelete = async (id: string) => {
     const ok = confirm('Delete this attachment?');
@@ -21,8 +23,17 @@ export function AttachmentList({ taskId }: Props) {
   };
 
   useEffect(() => {
-    attachmentService.list(taskId).then(setAttachments);
-  }, [taskId, setAttachments]);
+    setLoading(true);
+
+    attachmentService
+      .list(taskId)
+      .then(setAttachments)
+      .finally(() => setLoading(false));
+  }, [taskId, setAttachments, setLoading]);
+
+  if (loading) {
+    return <p className="text-sm text-gray-500">Loading attachments...</p>;
+  }
 
   if (attachments.length === 0) {
     return <p className="text-sm text-gray-500">No attachments yet</p>;
