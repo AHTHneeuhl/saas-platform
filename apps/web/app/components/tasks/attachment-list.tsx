@@ -27,7 +27,12 @@ export function AttachmentList({ taskId }: Props) {
           target="_blank"
           className="block border rounded p-2 text-sm hover:bg-gray-50"
         >
-          {a.filename}
+          <div className="flex justify-between">
+            <span>{a.filename}</span>
+            <span className="text-gray-400 text-xs">
+              {(a.size / 1024).toFixed(1)} KB
+            </span>
+          </div>
         </a>
       ))}
     </div>
