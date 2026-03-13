@@ -30,7 +30,11 @@ import { TasksModule } from './tasks/tasks.module';
     }),
 
     ScheduleModule.forRoot(),
-    LoggerModule.forRoot(),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        level: 'info',
+      },
+    }),
 
     AuthModule,
     PrismaModule,
