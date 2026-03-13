@@ -20,3 +20,11 @@ export async function createBillingPortal(): Promise<BillingPortalResponse> {
 
   return res.json();
 }
+
+export async function getSubscription() {
+  const res = await fetch('/api/billing/subscription', {
+    credentials: 'include',
+  });
+
+  return res.json();
+}
