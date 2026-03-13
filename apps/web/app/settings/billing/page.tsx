@@ -1,6 +1,7 @@
 'use client';
 
 import { SubscriptionStatus } from '@/app/components/billing/subscription-status';
+import { UsageLimits } from '@/app/components/billing/usage-limits';
 import { billingService } from '@/services/billing-service';
 
 export default function BillingPage() {
@@ -20,6 +21,12 @@ export default function BillingPage() {
 
       <div className="mt-6 space-y-4">
         <SubscriptionStatus plan="Free" />
+        <UsageLimits
+          projects={2}
+          projectLimit={5}
+          members={3}
+          memberLimit={10}
+        />
 
         <button
           onClick={handleCheckout}
