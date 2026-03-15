@@ -5,9 +5,10 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { CreateTaskModal } from '@/app/components/tasks/create-task-modal';
-import { getProject, getProjectTasks } from '@/services/project-service';
+import { getProject } from '@/services/project-service';
 import { useAuthStore } from '@/store/auth-store';
 import { useOrgStore } from '@/store/org-store';
+import { Project } from '@/types/project';
 
 const TasksBoard = dynamic(
   () => import('@/app/components/tasks/tasks-board').then((m) => m.TasksBoard),
@@ -17,50 +18,29 @@ const TasksBoard = dynamic(
   },
 );
 
-type Project = {
-  id: string;
-  name: string;
-  description?: string;
-};
-
-type Task = {
-  id: string;
-  title: string;
-  status: 'todo' | 'in_progress' | 'done';
-};
-
 export default function ProjectDetailsPage() {
   const { projectId } = useParams();
   const { token } = useAuthStore();
   const { orgId } = useOrgStore();
 
   const [project, setProject] = useState<Project | null>(null);
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [openTaskModal, setOpenTaskModal] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     if (!projectId || !orgId || !token) return;
 
-    async function loadData() {
+    async function loadProject() {
       const projectData = await getProject(
         orgId as string,
         projectId as string,
         token as string,
       );
 
-      const tasksData = await getProjectTasks(
-        orgId as string,
-        projectId as string,
-        token as string,
-      );
-
       setProject(projectData);
-      setTasks(tasksData);
     }
 
-    loadData();
-  }, [projectId, orgId, token, refreshKey]);
+    loadProject();
+  }, [projectId, orgId, token]);
 
   if (!project) return <div className="p-6">Loading...</div>;
 
@@ -80,16 +60,10 @@ export default function ProjectDetailsPage() {
         </button>
       </div>
 
-      <TasksBoard key={refreshKey} tasks={tasks} />
+      <TasksBoard projectId={projectId as string} />
 
       {openTaskModal && (
-        <CreateTaskModal
-          onClose={() => setOpenTaskModal(false)}
-          onCreated={() => {
-            setOpenTaskModal(false);
-            setRefreshKey((k) => k + 1);
-          }}
-        />
+        <CreateTaskModal onClose={() => setOpenTaskModal(false)} />
       )}
     </div>
   );
