@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
+import { CreateTaskModal } from '@/app/components/tasks/create-task-modal';
+import { getProject, getProjectTasks } from '@/services/project-service';
 import { useAuthStore } from '@/store/auth-store';
 import { useOrgStore } from '@/store/org-store';
-import { CreateTaskModal } from '@/app/components/tasks/create-task-modal';
-import { API_BASE_URL } from '@/services/api-client';
 
 const TasksBoard = dynamic(
   () => import('@/app/components/tasks/tasks-board').then((m) => m.TasksBoard),
@@ -42,36 +42,24 @@ export default function ProjectDetailsPage() {
   useEffect(() => {
     if (!projectId || !orgId || !token) return;
 
-    async function loadProject() {
-      const res = await fetch(
-        `${API_BASE_URL}/org/${orgId}/projects/${projectId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+    async function loadData() {
+      const projectData = await getProject(
+        orgId as string,
+        projectId as string,
+        token as string,
       );
 
-      const data = await res.json();
-      setProject(data);
-    }
-
-    async function loadTasks() {
-      const res = await fetch(
-        `${API_BASE_URL}/org/${orgId}/projects/${projectId}/tasks`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+      const tasksData = await getProjectTasks(
+        orgId as string,
+        projectId as string,
+        token as string,
       );
 
-      const data = await res.json();
-      setTasks(data.data);
+      setProject(projectData);
+      setTasks(tasksData);
     }
 
-    loadProject();
-    loadTasks();
+    loadData();
   }, [projectId, orgId, token, refreshKey]);
 
   if (!project) return <div className="p-6">Loading...</div>;
