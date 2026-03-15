@@ -1,17 +1,32 @@
-export function logError(error: unknown, context?: string) {
-  console.error('App Error:', {
-    error,
-    context,
-  });
+const isProd = process.env.NODE_ENV === 'production';
+
+type LogContext = Record<string, unknown>;
+
+function formatError(error: unknown) {
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    };
+  }
+
+  return { error };
 }
 
-const isProd = process.env.NODE_ENV === 'production';
+export function logError(error: unknown, context?: LogContext) {
+  const payload = {
+    error: formatError(error),
+    context,
+    timestamp: new Date().toISOString(),
+  };
+
+  console.error('App Error:', payload);
+}
 
 export const logger = {
   log: (...args: unknown[]) => {
-    if (!isProd) {
-      console.log(...args);
-    }
+    if (!isProd) console.log(...args);
   },
 
   info: (...args: unknown[]) => {
@@ -22,7 +37,7 @@ export const logger = {
     console.warn(...args);
   },
 
-  error: (...args: unknown[]) => {
-    console.error(...args);
+  error: (error: unknown, context?: LogContext) => {
+    logError(error, context);
   },
 };
