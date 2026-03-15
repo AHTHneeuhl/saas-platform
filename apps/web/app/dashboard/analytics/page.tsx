@@ -13,6 +13,9 @@ export default function AnalyticsPage() {
     analyticsService
       .metrics()
       .then(setMetrics)
+      .catch((err) => {
+        console.error('Failed to load analytics', err);
+      })
       .finally(() => setLoading(false));
   }, [setMetrics, setLoading]);
 
