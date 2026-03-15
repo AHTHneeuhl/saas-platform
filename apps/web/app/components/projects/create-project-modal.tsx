@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { createProject } from '@/services/project-service';
 import { useAuthStore } from '@/store/auth-store';
 import { useOrgStore } from '@/store/org-store';
+import { Project } from '@/types/project';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createProject } from '@/services/project-service';
+import { useState } from 'react';
 
 export function CreateProjectModal({ onClose }: { onClose: () => void }) {
   const [name, setName] = useState('');
@@ -18,11 +19,37 @@ export function CreateProjectModal({ onClose }: { onClose: () => void }) {
     mutationFn: (data: { name: string; description?: string }) =>
       createProject(orgId!, token!, data),
 
-    onSuccess: () => {
+    onMutate: async (newProject) => {
+      await queryClient.cancelQueries({ queryKey: ['projects'] });
+
+      const previousProjects = queryClient.getQueryData<Project[]>([
+        'projects',
+        orgId,
+      ]);
+
+      queryClient.setQueryData<Project[]>(['projects', orgId], (old = []) => [
+        ...old,
+        {
+          id: 'temp-' + Date.now(),
+          name: newProject.name,
+          description: newProject.description,
+        },
+      ]);
+
+      return { previousProjects };
+    },
+
+    onError: (_err, _newProject, context) => {
+      queryClient.setQueryData(['projects', orgId], context?.previousProjects);
+    },
+
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: ['projects'],
       });
+    },
 
+    onSuccess: () => {
       onClose();
     },
   });
