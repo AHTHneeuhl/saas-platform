@@ -5,10 +5,7 @@ import { analyticsService } from '@/services/analytics-service';
 import { useAnalyticsStore } from '@/store/analytics-store';
 
 export default function AnalyticsPage() {
-  const metrics = useAnalyticsStore((s) => s.metrics);
-  const setMetrics = useAnalyticsStore((s) => s.setMetrics);
-  const loading = useAnalyticsStore((s) => s.loading);
-  const setLoading = useAnalyticsStore((s) => s.setLoading);
+  const { metrics, setMetrics, loading, setLoading } = useAnalyticsStore();
 
   useEffect(() => {
     setLoading(true);
