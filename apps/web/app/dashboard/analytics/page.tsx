@@ -7,10 +7,21 @@ import { useAnalyticsStore } from '@/store/analytics-store';
 export default function AnalyticsPage() {
   const metrics = useAnalyticsStore((s) => s.metrics);
   const setMetrics = useAnalyticsStore((s) => s.setMetrics);
+  const loading = useAnalyticsStore((s) => s.loading);
+  const setLoading = useAnalyticsStore((s) => s.setLoading);
 
   useEffect(() => {
-    analyticsService.metrics().then(setMetrics);
-  }, [setMetrics]);
+    setLoading(true);
+
+    analyticsService
+      .metrics()
+      .then(setMetrics)
+      .finally(() => setLoading(false));
+  }, [setMetrics, setLoading]);
+
+  if (loading) {
+    return <p className="text-sm text-gray-500">Loading analytics...</p>;
+  }
 
   return (
     <div className="p-6 space-y-6">
