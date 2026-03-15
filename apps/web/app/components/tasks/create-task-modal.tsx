@@ -5,13 +5,7 @@ import { useAuthStore } from '@/store/auth-store';
 import { useParams } from 'next/navigation';
 import { useOrgStore } from '@/store/org-store';
 
-export function CreateTaskModal({
-  onClose,
-  onCreated,
-}: {
-  onClose: () => void;
-  onCreated: () => void;
-}) {
+export function CreateTaskModal({ onClose }: { onClose: () => void }) {
   const [title, setTitle] = useState('');
   const { token } = useAuthStore();
   const { projectId } = useParams();
@@ -31,7 +25,6 @@ export function CreateTaskModal({
     );
 
     onClose();
-    onCreated();
   }
 
   return (
