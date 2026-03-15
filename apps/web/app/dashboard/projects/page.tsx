@@ -18,14 +18,7 @@ export default function ProjectsPage() {
 
       <ProjectsGrid />
 
-      {open && (
-        <CreateProjectModal
-          onClose={() => setOpen(false)}
-          onCreated={() => {
-            setOpen(false);
-          }}
-        />
-      )}
+      {open && <CreateProjectModal onClose={() => setOpen(false)} />}
     </div>
   );
 }
