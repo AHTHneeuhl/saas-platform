@@ -1,9 +1,7 @@
-import { AnalyticsMetrics } from '@/types/analytics';
+import { apiFetch } from '@/services/api-client';
 
-export async function getAnalytics(): Promise<AnalyticsMetrics> {
-  const res = await fetch('/api/analytics', {
-    credentials: 'include',
+export function getAnalytics() {
+  return apiFetch('/analytics', {
+    next: { revalidate: 60 },
   });
-
-  return res.json();
 }

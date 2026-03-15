@@ -2,17 +2,24 @@ import { env } from '@/lib/env';
 
 export const API_BASE_URL = env.NEXT_PUBLIC_API_URL;
 
+type ApiFetchOptions = RequestInit & {
+  next?: {
+    revalidate?: number;
+    tags?: string[];
+  };
+};
+
 export async function apiFetch<T>(
   path: string,
-  options?: RequestInit,
+  options?: ApiFetchOptions,
 ): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       ...(options?.headers || {}),
     },
-    credentials: 'include',
+    ...options,
   });
 
   if (!res.ok) {
