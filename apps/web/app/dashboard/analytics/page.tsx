@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
 import { analyticsService } from '@/services/analytics-service';
 import { useAnalyticsStore } from '@/store/analytics-store';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 export default function AnalyticsPage() {
   const { metrics, setMetrics, loading, setLoading } = useAnalyticsStore();
@@ -15,6 +16,7 @@ export default function AnalyticsPage() {
       .then(setMetrics)
       .catch((err) => {
         console.error('Failed to load analytics', err);
+        toast.error('Failed to load analytics');
       })
       .finally(() => setLoading(false));
   }, [setMetrics, setLoading]);
