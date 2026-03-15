@@ -1,0 +1,36 @@
+# Node
+node_modules
+npm-debug.log*
+pnpm-debug.log*
+
+# Turborepo
+.turbo
+
+# Next.js
+.next
+
+# Logs
+logs
+*.log
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Git
+.git
+.gitignore
+
+# OS
+.DS_Store
+
+# Tests
+tests
+playwright-report
+
+# Coverage
+coverage
+
+# Build output
+dist
