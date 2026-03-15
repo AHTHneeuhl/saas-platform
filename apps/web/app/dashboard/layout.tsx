@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { NotificationBell } from '../components/notifications/notification-bell';
 import { SearchInput } from '../components/search/search-input';
+import { ErrorBoundary } from '../components/errors/error-boundary';
 
 export default function DashboardLayout({
   children,
@@ -79,7 +80,9 @@ export default function DashboardLayout({
         </div>
       </header>
 
-      <main className="flex-1 p-6">{children}</main>
+      <main className="flex-1 p-6">
+        <ErrorBoundary>{children}</ErrorBoundary>
+      </main>
     </div>
   );
 }
