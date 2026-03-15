@@ -1,5 +1,5 @@
 export type Task = {
   id: string;
   title: string;
-  status?: string;
+  status: 'todo' | 'in_progress' | 'done';
 };
