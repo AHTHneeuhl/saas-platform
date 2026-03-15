@@ -5,9 +5,8 @@ RUN corepack enable
 
 # -------- Prune workspace --------
 FROM base AS pruner
-RUN pnpm add -g turbo
 COPY . .
-RUN turbo prune web --docker
+RUN npx turbo prune web --docker
 
 # -------- Install dependencies --------
 FROM base AS deps
